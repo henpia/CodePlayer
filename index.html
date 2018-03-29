@@ -3,6 +3,7 @@
 <head>
 	<title>Code Player</title>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 	<div id="header">
@@ -11,15 +12,48 @@
 		</div>
 
 		<div id="buttonContainer">
-			<div class="toggleButton" id="html">HTML</div>
+			<div class="toggleButton active" id="html">HTML</div>
 			<div class="toggleButton" id="css">CSS</div>
 			<div class="toggleButton" id="javascript">JavaScript</div>
-			<div class="toggleButton" id="output">Output</div>
+			<div class="toggleButton active" id="output">Output</div>
 		</div>
 	</div>
 
+	<div id="bodyContainer">
+		<textarea id="htmlPanel" class="panel">Hello World!</textarea>
+		
+		<textarea id="cssPanel" class="panel">Hello World!</textarea>
+		
+		<textarea id="javascriptPanel" class="panel">Hello World!</textarea>
+
+		<iframe id="outputPanel" class="panel" src=""></iframe>
+
+	</div>
+	
+
+
 	<script type="text/javascript">
 		
+		$(".toggleButton").hover(function() {
+			$(this).addClass("highlightedButton");
+		}, function() {
+			$(this).removeClass("highlightedButton");
+		});
+
+		$(".toggleButton").click(function() {
+			$(this).toggleClass("active");
+			$(this).removeClass("highlightedButton");
+		});
+
+		$(".panel").height($(window).height() - $("#header").height() - 16);
+
+		$(".panel").width(($(window).width() / 2) - 5);
+
+		$("iframe").contents().find("html").html($("#htmlPanel").val());
+
+		$("textarea").on('change keyup change', function() {
+			$("iframe").contents().find("html").html($("#htmlPanel").val());
+		});
 	</script>
 </body>
 </html>
