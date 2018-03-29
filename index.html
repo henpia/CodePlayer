@@ -20,11 +20,11 @@
 	</div>
 
 	<div id="bodyContainer">
-		<textarea id="htmlPanel" class="panel">Hello World!</textarea>
+		<textarea id="htmlPanel" class="panel"><p id="paragraph">Hello World!</p></textarea>
 		
 		<textarea id="cssPanel" class="panel hidden">p { color: green; }</textarea>
 		
-		<textarea id="javascriptPanel" class="panel hidden">alert("Hi There!");</textarea>
+		<textarea id="javascriptPanel" class="panel hidden">document.getElementById("paragraph").innerHTML = "Hi!";</textarea>
 
 		<iframe id="outputPanel" class="panel" src=""></iframe>
 
@@ -33,6 +33,12 @@
 
 
 	<script type="text/javascript">
+
+		function updateOutput() {
+			$("iframe").contents().find("html").html("<html><head><style type='text/css'>" + $("#cssPanel").val() + "</style></head><body>" + $("#htmlPanel").val() + "</body></html>");
+			document.getElementById("outputPanel").contentWindow.eval($("#javascriptPanel").val());
+			
+		};
 		
 		$(".toggleButton").hover(function() {
 			$(this).addClass("highlightedButton");
@@ -53,10 +59,10 @@
 
 		$(".panel").width(($(window).width() / 2) - 5);
 
-		$("iframe").contents().find("html").html($("#htmlPanel").val());
+		updateOutput();
 
 		$("textarea").on('change keyup change', function() {
-			$("iframe").contents().find("html").html($("#htmlPanel").val());
+			updateOutput();
 		});
 	</script>
 </body>
